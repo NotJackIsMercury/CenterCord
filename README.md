@@ -1,0 +1,2 @@
+# CenterCord
+simple discord bot
