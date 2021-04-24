@@ -1,1 +1,1 @@
-worker: java centerview/centercord/CenterCord.java
+worker: java src/centerview/centercord/CenterCord.java
