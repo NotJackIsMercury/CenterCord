@@ -9,7 +9,9 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import centerview.centercord.cmds.Command;
 import centerview.centercord.cmds.EchoCommand;
+import centerview.centercord.cmds.HelpCommand;
 import centerview.centercord.cmds.PingCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -79,7 +81,8 @@ public final class CenterCord {
 			jda = JDABuilder.createDefault(System.getenv("discord.centercord.token"))
 				.disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOTE, CacheFlag.MEMBER_OVERRIDES,
 					CacheFlag.ROLE_TAGS, CacheFlag.VOICE_STATE)
-				.setActivity(Activity.watching("JavaDocs")).build();
+				.setActivity(Activity.watching("JavaDocs"))
+				.build();
 			loadGuildPrefixes();
 			applyCommands();
 		} catch (Exception e) {
@@ -88,7 +91,10 @@ public final class CenterCord {
 	}
 
 	private static void applyCommands() {
-		jda.addEventListener(new EchoCommand(), new PingCommand());
+		final Command[] commands = { new EchoCommand(), new PingCommand() };
+//		final Command[] allCommands = new Command[commands.length + 1];
+		jda.addEventListener(new HelpCommand(commands));
+		jda.addEventListener((Object[]) commands);
 	}
 
 	private static void loadGuildPrefixes() {
